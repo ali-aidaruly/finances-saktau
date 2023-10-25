@@ -1,0 +1,6 @@
+BEGIN;
+
+DROP TABLE IF EXISTS invoice;
+DROP TRIGGER IF EXISTS on_update ON invoice;
+
+COMMIT;

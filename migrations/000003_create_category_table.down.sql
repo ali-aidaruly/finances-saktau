@@ -1,0 +1,6 @@
+BEGIN;
+
+DROP TABLE IF EXISTS category;
+DROP TRIGGER IF EXISTS on_update ON category;
+
+COMMIT;
