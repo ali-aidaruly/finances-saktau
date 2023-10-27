@@ -6,6 +6,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/ali-aidaruly/finances-saktau/pkg/logger"
+
 	"github.com/ali-aidaruly/finances-saktau/internal/composer"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
@@ -16,13 +18,15 @@ func (s *Server) createInvoice(ctx context.Context, msg tgbotapi.Message) string
 		return "invoice is empty! Example: /addinvoice parking 100 KZT (currency is optional)" // TODO: add wizard
 	}
 
+	logger.Logger.Debug().Msg("creating invoice")
+
 	parts := strings.Split(msgText, " ")
 	if !(2 <= len(parts) && len(parts) <= 3) {
-		return "TODO: "
+		return "TODO: it is not between 2 and 3"
 	}
 
 	if _, err := strconv.ParseFloat(parts[1], 64); err != nil {
-		return "TODO: "
+		return "TODO: it is not float"
 	}
 
 	var currency *string
@@ -32,7 +36,7 @@ func (s *Server) createInvoice(ctx context.Context, msg tgbotapi.Message) string
 		currency = &parts[2]
 
 		if len(*currency) != 3 {
-			return "TODO: "
+			return "TODO: currency is longer than 3"
 		}
 	}
 
@@ -43,7 +47,9 @@ func (s *Server) createInvoice(ctx context.Context, msg tgbotapi.Message) string
 		Currency:       currency,
 	})
 	if err != nil {
-		return "TODO: "
+		fmt.Println("pzdc")
+		logger.Logger.Err(err).Send()
+		return err.Error()
 	}
 
 	return "success!"
@@ -52,19 +58,19 @@ func (s *Server) createInvoice(ctx context.Context, msg tgbotapi.Message) string
 func (s *Server) getInvoices(ctx context.Context, msg tgbotapi.Message) string {
 	msgText := strings.TrimSpace(msg.Text)
 	if msgText == "" {
-		return "date is empty" // TODO: add wizard
+		msgText = "today" // TODO: add wizard
 	}
 
 	parts := strings.Split(msgText, " ")
 	if len(parts) != 1 {
-		return "TODO: "
+		return "TODO: not one"
 	}
 
 	date := strings.ToLower(parts[0])
 
 	fn, ok := dateParser[date]
 	if !ok {
-		return "TODO: "
+		return "TODO: not that date"
 	}
 
 	from, to := fn()
@@ -76,12 +82,12 @@ func (s *Server) getInvoices(ctx context.Context, msg tgbotapi.Message) string {
 	})
 
 	if err != nil {
-		return "TODO: "
+		return "TODO: getinvoices err" + err.Error()
 	}
 
 	res, err := getInvoicesResponseMessage(payload)
 	if err != nil {
-		return "TODO: "
+		return "TODO: getinvoices resp meesage"
 	}
 
 	return res
@@ -94,7 +100,7 @@ func getInvoicesResponseMessage(payload composer.GetInvoicesPayload) (string, er
 
 	builder.Grow(size)
 
-	totalMsg := fmt.Sprintf("Total: %d KZT", payload.Sum)
+	totalMsg := fmt.Sprintf("Total: %d KZT\n", payload.Sum)
 
 	_, err := builder.WriteString(totalMsg)
 	if err != nil {
@@ -103,7 +109,7 @@ func getInvoicesResponseMessage(payload composer.GetInvoicesPayload) (string, er
 
 	const layout = "2.1.2006 15:04"
 	for i, w := range payload.Invoices {
-		row := fmt.Sprintf("%d) %s: %s KZT %s\n", i, w.CategoryName, w.Amount, w.CreatedAt.Format(layout))
+		row := fmt.Sprintf("%d) %s: %s KZT %s\n", i+1, w.CategoryName, w.Amount, w.CreatedAt.Local().Format(layout))
 
 		_, err = builder.WriteString(row)
 		if err != nil {

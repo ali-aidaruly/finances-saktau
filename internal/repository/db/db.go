@@ -82,7 +82,7 @@ func (d *DB) QueryxContext(ctx context.Context, query string, args ...interface{
 }
 
 func (d *DB) QueryRowxContext(ctx context.Context, query string, args ...interface{}) *sqlx.Row {
-	return d.conn(ctx).QueryRowxContext(ctx, query, args)
+	return d.conn(ctx).QueryRowxContext(ctx, query, args...)
 }
 
 func (d *DB) MustExecContext(ctx context.Context, query string, args ...interface{}) sql.Result {

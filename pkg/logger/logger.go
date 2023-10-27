@@ -7,6 +7,8 @@ import (
 	"github.com/rs/zerolog"
 )
 
+var Logger *zerolog.Logger
+
 func NewLogger(cfg *Config) *zerolog.Logger {
 	var output io.Writer
 	output = os.Stdout
@@ -26,6 +28,8 @@ func NewLogger(cfg *Config) *zerolog.Logger {
 	} else {
 		logger = logger.Level(level)
 	}
+
+	Logger = &logger
 
 	return &logger
 }

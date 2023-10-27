@@ -8,7 +8,7 @@ import (
 )
 
 func (s *service) Get(ctx context.Context, filter filters.InvoiceQuery) ([]models.Invoice, error) {
-	invoices, err := s.Get(ctx, filter)
+	invoices, err := s.repo.Get(ctx, filter)
 	if err != nil {
 		return nil, err
 	}

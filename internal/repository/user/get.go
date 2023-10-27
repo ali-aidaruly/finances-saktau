@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/ali-aidaruly/finances-saktau/pkg/errs"
 
@@ -12,7 +13,7 @@ import (
 func (r *repo) GetByTelegramId(ctx context.Context, telegramId int) (models.User, error) {
 
 	q := sq.Select("*").
-		From(userTableName).
+		From(fmt.Sprintf(`"%s"`, userTableName)).
 		PlaceholderFormat(sq.Dollar).
 		Where(sq.Eq{"telegram_id": telegramId})
 

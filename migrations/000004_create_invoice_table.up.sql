@@ -2,7 +2,7 @@ BEGIN;
 
 CREATE TABLE invoice (
     id BIGINT CONSTRAINT invoice_pk PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    user_telegram_id SMALLINT NOT NULL,
+    user_telegram_id BIGINT NOT NULL,
     category_id INTEGER NOT NULL,
     amount DECIMAL NOT NULL,
     currency currency_type NOT NULL,

@@ -19,14 +19,14 @@ func (s *Server) getReport(ctx context.Context, msg tgbotapi.Message) string {
 
 	parts := strings.Split(msgText, " ")
 	if len(parts) != 1 {
-		return "TODO: "
+		return "TODO: not one report"
 	}
 
 	date := strings.ToLower(parts[0])
 
 	fn, ok := dateParser[date]
 	if !ok {
-		return "TODO: "
+		return "TODO: invalid dateparses"
 	}
 
 	from, to := fn()
@@ -38,12 +38,12 @@ func (s *Server) getReport(ctx context.Context, msg tgbotapi.Message) string {
 	})
 
 	if err != nil {
-		return "TODO: "
+		return "TODO: getreport error in compo" + err.Error()
 	}
 
 	res, err := getReportResponseMessage(payload, from, to)
 	if err != nil {
-		return "TODO: "
+		return "TODO: get-report-resp-msg"
 	}
 
 	return res
@@ -57,7 +57,7 @@ func getReportResponseMessage(payload composer.GetReportPayload, from, to time.T
 	builder.Grow(size)
 
 	const layout = "2.1.2006"
-	totalMsg := fmt.Sprintf("Total: %d KZT (%s - %s)", payload.TotalSum, from.Format(layout), to.Format(layout))
+	totalMsg := fmt.Sprintf("Total: %d KZT (%s - %s)\n", payload.TotalSum, from.Format(layout), to.Format(layout))
 
 	_, err := builder.WriteString(totalMsg)
 	if err != nil {
@@ -65,7 +65,7 @@ func getReportResponseMessage(payload composer.GetReportPayload, from, to time.T
 	}
 
 	for i, w := range payload.InvoiceSums {
-		row := fmt.Sprintf("%d) %s: %s KZT\n", i, w.CategoryName, w.TotalAmount)
+		row := fmt.Sprintf("%d) %s: %s KZT\n", i+1, w.CategoryName, w.TotalAmount)
 
 		_, err = builder.WriteString(row)
 		if err != nil {

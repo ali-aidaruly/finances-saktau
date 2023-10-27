@@ -1,9 +1,7 @@
 BEGIN;
 
-CREATE TYPE currency_type AS ENUM ('KZT');
-
-CREATE TABLE user (
-    telegram_id BIGINT CONSTRAINT users_pk PRIMARY KEY,
+CREATE TABLE "user" (
+    telegram_id BIGINT CONSTRAINT user_pk PRIMARY KEY,
     telegram_username TEXT NOT NULL,
     first_name TEXT NOT NULL,
     last_name TEXT,
@@ -14,11 +12,11 @@ CREATE TABLE user (
     deleted_at TIMESTAMP
 );
 
-CREATE UNIQUE INDEX ON user (telegram_username);
+CREATE UNIQUE INDEX ON "user" (telegram_username);
 
 CREATE TRIGGER on_update
     BEFORE UPDATE
-    ON user
+    ON "user"
     FOR EACH ROW
 EXECUTE PROCEDURE set_updated_at();
 

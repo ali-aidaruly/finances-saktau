@@ -2,7 +2,6 @@ package composer
 
 import (
 	"context"
-	"errors"
 	"math"
 	"strconv"
 
@@ -70,7 +69,7 @@ func (c *composer) GetInvoices(ctx context.Context, invoice GetInvoicesFilter) (
 
 	invoices, err := c.invoiceMan.Get(ctx, filter)
 	if err != nil {
-		return GetInvoicesPayload{}, errors.New("TODO")
+		return GetInvoicesPayload{}, err
 	}
 
 	sumFloat, err := slice.Reduce(invoices, func(num float64, inv models.Invoice) (float64, error) {

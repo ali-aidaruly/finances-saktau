@@ -10,7 +10,7 @@ import (
 )
 
 func (r *repo) Create(ctx context.Context, category *models.Category) error {
-	q := `INSERT INTO categories (user_telegram_id, category, category_origin_typed)
+	q := `INSERT INTO category (user_telegram_id, name, category_origin_typed)
 		  VALUES (:user_telegram_id, :category, :category_origin_typed) 
 		  RETURNING id, created_at, updated_at`
 

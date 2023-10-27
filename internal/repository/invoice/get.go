@@ -19,11 +19,11 @@ import (
 func (r *repo) Get(ctx context.Context, filter filters.InvoiceQuery) ([]models.Invoice, error) {
 
 	q := sq.Select(
-		"i.id as id",
-		"i.user_telegram_id as user_telegram_id",
+		"i.id id",
+		"i.user_telegram_id user_telegram_id",
 		"i.category_id as category_id",
 		"i.amount as amount",
-		"u.currency as currency",
+		"i.currency as currency",
 		"i.description as description",
 		"i.created_at as created_at",
 		"i.updated_at as updated_at",
@@ -57,8 +57,8 @@ func (r *repo) AmountSumGroupByCategory(ctx context.Context, filter filters.Invo
 	q := sq.Select("c.name AS category_name", "SUM(i.amount)::text AS total_amount").
 		From("invoice i").
 		Join("category c ON i.category_id = c.id").
-		Where(sq.Expr("i.created_at BETWEEN ? AND ? AND i.user_id = ?", filter.From, filter.To, filter.UserId)).
-		GroupBy("c.category_id", "c.name").
+		Where(sq.Expr("i.created_at BETWEEN ? AND ? AND i.user_telegram_id = ?", filter.From, filter.To, filter.UserId)).
+		GroupBy("c.name").
 		OrderBy("total_amount DESC").
 		PlaceholderFormat(sq.Dollar)
 
@@ -81,7 +81,7 @@ func (r *repo) AmountSumGroupByCategory(ctx context.Context, filter filters.Invo
 func applyFilter(q sq.SelectBuilder, f filters.InvoiceFilter) sq.SelectBuilder {
 
 	if len(f.UserIds) > 0 {
-		q = q.Where(sq.Eq{"user_telegram_id": f.UserIds})
+		q = q.Where(sq.Eq{"i.user_telegram_id": f.UserIds})
 	}
 
 	if len(f.CategoryIds) > 0 {
@@ -93,7 +93,7 @@ func applyFilter(q sq.SelectBuilder, f filters.InvoiceFilter) sq.SelectBuilder {
 			f.TillDate = pointer.Of(time.Now())
 		}
 
-		q = q.Where(sq.Expr("created_at BETWEEN ? AND ?", *f.FromDate, *f.TillDate))
+		q = q.Where(sq.Expr("i.created_at BETWEEN ? AND ?", *f.FromDate, *f.TillDate))
 	}
 
 	return q

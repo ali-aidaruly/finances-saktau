@@ -10,7 +10,7 @@ import (
 )
 
 func (r *repo) Create(ctx context.Context, user *models.User) error {
-	q := `INSERT INTO users (telegram_id, telegram_username, first_name, last_name)
+	q := `INSERT INTO "user" (telegram_id, telegram_username, first_name, last_name)
 		  VALUES (:telegram_id, :telegram_username, :first_name, :last_name) 
 		  RETURNING created_at, updated_at`
 
