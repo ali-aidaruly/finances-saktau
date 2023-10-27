@@ -7,7 +7,7 @@ import (
 	"github.com/ali-aidaruly/finances-saktau/internal/models/filters"
 )
 
-func (s *service) Get(ctx context.Context, filter filters.InvoiceFilter) ([]models.Invoice, error) {
+func (s *service) Get(ctx context.Context, filter filters.InvoiceQuery) ([]models.Invoice, error) {
 	invoices, err := s.Get(ctx, filter)
 	if err != nil {
 		return nil, err

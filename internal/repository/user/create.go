@@ -3,8 +3,9 @@ package user
 import (
 	"context"
 
+	"github.com/ali-aidaruly/finances-saktau/pkg/errs"
+
 	"github.com/ali-aidaruly/finances-saktau/internal/models"
-	"github.com/ali-aidaruly/finances-saktau/internal/pkg/errs"
 	"github.com/pkg/errors"
 )
 

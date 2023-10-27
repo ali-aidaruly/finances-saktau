@@ -19,13 +19,16 @@ type composer struct {
 
 type Composer interface {
 	CreateInvoice(ctx context.Context, invoice CreateInvoice) error
-	GetInvoices(ctx context.Context, filter filters.InvoiceFilter) error
+	GetInvoices(ctx context.Context, invoice GetInvoicesFilter) (GetInvoicesPayload, error)
 
 	CreateUser(ctx context.Context, user *models.User) error
+	GetReport(ctx context.Context, filter filters.InvoiceSumQuery) (GetReportPayload, error)
 
 	CreateCategory(ctx context.Context, category *models.Category) error
 	GetAllCategories(ctx context.Context, userTelegramID int) ([]*models.Category, error)
 }
+
+var _ Composer = (*composer)(nil)
 
 func NewComposer(repos repository.Repository) *composer {
 

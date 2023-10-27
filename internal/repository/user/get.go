@@ -3,9 +3,10 @@ package user
 import (
 	"context"
 
+	"github.com/ali-aidaruly/finances-saktau/pkg/errs"
+
 	sq "github.com/Masterminds/squirrel"
 	"github.com/ali-aidaruly/finances-saktau/internal/models"
-	"github.com/ali-aidaruly/finances-saktau/internal/pkg/errs"
 )
 
 func (r *repo) GetByTelegramId(ctx context.Context, telegramId int) (models.User, error) {

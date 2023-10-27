@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/ali-aidaruly/finances-saktau/internal/pkg/logger"
+	"github.com/ali-aidaruly/finances-saktau/pkg/logger"
 
 	"github.com/ali-aidaruly/finances-saktau/internal/telegram"
 	"github.com/joeshaw/envdecode"

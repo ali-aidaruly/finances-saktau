@@ -3,8 +3,9 @@ package server
 import (
 	"context"
 
+	"github.com/ali-aidaruly/finances-saktau/pkg/pointer"
+
 	"github.com/ali-aidaruly/finances-saktau/internal/models"
-	"github.com/ali-aidaruly/finances-saktau/internal/pkg/pointer"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/rs/zerolog"
 )

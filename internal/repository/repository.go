@@ -14,7 +14,9 @@ import (
 type InvoiceRepo interface {
 	Create(ctx context.Context, invoice models.CreateInvoice) (int, error)
 
-	Get(ctx context.Context, filter filters.InvoiceFilter) ([]models.Invoice, error)
+	Get(ctx context.Context, filter filters.InvoiceQuery) ([]models.Invoice, error)
+
+	AmountSumGroupByCategory(ctx context.Context, filter filters.InvoiceSumQuery) ([]models.InvoiceSumByCategory, error)
 }
 
 type CategoryRepo interface {

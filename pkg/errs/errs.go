@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/ali-aidaruly/finances-saktau/internal/pkg/errs/errcode"
+	"github.com/ali-aidaruly/finances-saktau/pkg/errs/errcode"
 
 	"github.com/lib/pq"
 	"go.uber.org/zap/zapcore"

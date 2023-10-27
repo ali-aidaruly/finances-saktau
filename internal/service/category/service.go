@@ -20,6 +20,8 @@ type service struct {
 	repo repository.CategoryRepo
 }
 
+var _ Manager = (*service)(nil)
+
 func NewCategoryService(repo repository.CategoryRepo) *service {
 	return &service{
 		repo: repo,

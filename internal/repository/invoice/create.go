@@ -3,10 +3,11 @@ package invoice
 import (
 	"context"
 
+	"github.com/ali-aidaruly/finances-saktau/pkg/errs"
+	"github.com/ali-aidaruly/finances-saktau/pkg/fmap"
+
 	sq "github.com/Masterminds/squirrel"
 	"github.com/ali-aidaruly/finances-saktau/internal/models"
-	"github.com/ali-aidaruly/finances-saktau/internal/pkg/errs"
-	"github.com/ali-aidaruly/finances-saktau/internal/pkg/fmap"
 )
 
 func (r *repo) Create(ctx context.Context, invoice models.CreateInvoice) (int, error) {

@@ -2,6 +2,7 @@ package category
 
 import (
 	"context"
+	"strings"
 
 	"github.com/ali-aidaruly/finances-saktau/internal/models"
 	"github.com/ali-aidaruly/finances-saktau/internal/models/filters"
@@ -9,6 +10,8 @@ import (
 )
 
 func (s *service) GetByName(ctx context.Context, name string) (models.Category, error) {
+	name = strings.ToLower(name)
+
 	category, err := s.repo.GetByName(ctx, name)
 	if err != nil {
 		return category, err

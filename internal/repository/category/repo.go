@@ -9,9 +9,9 @@ const (
 )
 
 type repo struct {
-	db db.DBExecUnsafe
+	db db.ExecUnsafe
 }
 
-func NewRepo(db db.DBExecUnsafe) *repo {
+func NewRepo(db db.ExecUnsafe) *repo {
 	return &repo{db: db}
 }

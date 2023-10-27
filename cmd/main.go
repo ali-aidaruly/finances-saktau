@@ -6,8 +6,9 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/ali-aidaruly/finances-saktau/pkg/logger"
+
 	"github.com/ali-aidaruly/finances-saktau/internal/composer"
-	"github.com/ali-aidaruly/finances-saktau/internal/pkg/logger"
 	"github.com/ali-aidaruly/finances-saktau/internal/repository"
 	"github.com/ali-aidaruly/finances-saktau/internal/repository/db"
 	"github.com/ali-aidaruly/finances-saktau/internal/server"

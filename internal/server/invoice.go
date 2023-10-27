@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -46,4 +47,69 @@ func (s *Server) createInvoice(ctx context.Context, msg tgbotapi.Message) string
 	}
 
 	return "success!"
+}
+
+func (s *Server) getInvoices(ctx context.Context, msg tgbotapi.Message) string {
+	msgText := strings.TrimSpace(msg.Text)
+	if msgText == "" {
+		return "date is empty" // TODO: add wizard
+	}
+
+	parts := strings.Split(msgText, " ")
+	if len(parts) != 1 {
+		return "TODO: "
+	}
+
+	date := strings.ToLower(parts[0])
+
+	fn, ok := dateParser[date]
+	if !ok {
+		return "TODO: "
+	}
+
+	from, to := fn()
+
+	payload, err := s.composer.GetInvoices(ctx, composer.GetInvoicesFilter{
+		UserId:   int(msg.From.ID), // TODO: handle from is nil
+		FromDate: from,
+		TillDate: to,
+	})
+
+	if err != nil {
+		return "TODO: "
+	}
+
+	res, err := getInvoicesResponseMessage(payload)
+	if err != nil {
+		return "TODO: "
+	}
+
+	return res
+}
+
+func getInvoicesResponseMessage(payload composer.GetInvoicesPayload) (string, error) {
+	const size int = 10000
+
+	builder := strings.Builder{}
+
+	builder.Grow(size)
+
+	totalMsg := fmt.Sprintf("Total: %d KZT", payload.Sum)
+
+	_, err := builder.WriteString(totalMsg)
+	if err != nil {
+		return "", err
+	}
+
+	const layout = "2.1.2006 15:04"
+	for i, w := range payload.Invoices {
+		row := fmt.Sprintf("%d) %s: %s KZT %s\n", i, w.CategoryName, w.Amount, w.CreatedAt.Format(layout))
+
+		_, err = builder.WriteString(row)
+		if err != nil {
+			return "", err
+		}
+	}
+
+	return builder.String(), nil
 }

@@ -17,8 +17,12 @@ func NewInvoiceService(repo repository.InvoiceRepo) *service {
 type Manager interface {
 	Create(ctx context.Context, invoice models.CreateInvoice) (int, error)
 
-	Get(ctx context.Context, filter filters.InvoiceFilter) ([]models.Invoice, error)
+	Get(ctx context.Context, filter filters.InvoiceQuery) ([]models.Invoice, error)
+
+	AmountSumGroupByCategory(ctx context.Context, filter filters.InvoiceSumQuery) ([]models.InvoiceSumByCategory, error)
 }
+
+var _ Manager = (*service)(nil)
 
 type service struct {
 	repo repository.InvoiceRepo

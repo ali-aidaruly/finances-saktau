@@ -17,6 +17,8 @@ type service struct {
 	repo repository.UserRepo
 }
 
+var _ Manager = (*service)(nil)
+
 type Manager interface {
 	Create(ctx context.Context, user *models.User) error
 

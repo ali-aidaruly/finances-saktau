@@ -4,10 +4,11 @@ import (
 	"context"
 	"database/sql"
 
+	"github.com/ali-aidaruly/finances-saktau/pkg/errs"
+
 	sq "github.com/Masterminds/squirrel"
 	"github.com/ali-aidaruly/finances-saktau/internal/models"
 	"github.com/ali-aidaruly/finances-saktau/internal/models/filters"
-	"github.com/ali-aidaruly/finances-saktau/internal/pkg/errs"
 	"github.com/pkg/errors"
 )
 

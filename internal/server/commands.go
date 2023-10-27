@@ -5,14 +5,18 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/rs/zerolog"
+
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
 const (
-	start                 = "/start"
-	addCategoryCommand    = "/add-category"
-	addInvoiceCommand     = "/add-invoice"
-	listCategoriesCommand = "/list-categories"
+	start                = "/start"
+	addCategoryCommand   = "/add-c"
+	addInvoiceCommand    = "/add"
+	getCategoriesCommand = "/get-c"
+	getInvoicesCommand   = "/get"
+	getReportCommand     = "/get-r"
 )
 
 func (s *Server) processMessage(ctx context.Context, msg tgbotapi.Message) string {
@@ -34,9 +38,14 @@ func (s *Server) processMessage(ctx context.Context, msg tgbotapi.Message) strin
 		return s.createCategory(ctx, msg)
 	case addInvoiceCommand:
 		return s.createInvoice(ctx, msg)
-	case listCategoriesCommand:
+	case getCategoriesCommand:
 		return s.getAllCategories(ctx, msg)
+	case getInvoicesCommand:
+		return s.getInvoices(ctx, msg)
+	case getReportCommand:
+		return s.getReport(ctx, msg)
 	default:
+		zerolog.Ctx(ctx).Log().Str("invalid command!", command)
 	}
 
 	return ""
