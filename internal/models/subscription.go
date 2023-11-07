@@ -11,7 +11,9 @@ type Subscription struct {
 	PaymentInterval string   `db:"payment_interval"`
 	Description     *string  `db:"description"`
 
-	CreatedAt time.Time `db:"created_at"`
+	CreatedAt time.Time  `db:"created_at"`
+	UpdatedAt time.Time  `db:"updated_at"`
+	DeletedAt *time.Time `db:"deleted_at"`
 }
 
 type CreateSubscription struct {

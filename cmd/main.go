@@ -73,3 +73,7 @@ func connectDB(cfg config.DbConfig) (*db.DB, error) {
 
 	return db.NewDB(dbx), nil
 }
+
+// TODO: exchange-rates to count subscriptions
+// TODO: add description in invoice
+// TODO: add subs to month and year report

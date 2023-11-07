@@ -34,7 +34,7 @@ func (r *repo) GetByName(ctx context.Context, name string) (models.Category, err
 
 func (r *repo) GetAll(ctx context.Context, userTelegramID int) ([]*models.Category, error) {
 	q := `SELECT id, category, category_origin_typed, created_at, updated_at
-			FROM categories WHERE user_telegram_id = $1 AND deleted_at IS NULL`
+			FROM category WHERE user_telegram_id = $1 AND deleted_at IS NULL`
 
 	var selected []*models.Category
 	if err := r.db.SelectContext(ctx, &selected, q, userTelegramID); err != nil && err != sql.ErrNoRows {
