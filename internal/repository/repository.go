@@ -3,6 +3,8 @@ package repository
 import (
 	"context"
 
+	"github.com/ali-aidaruly/finances-saktau/internal/repository/subscription"
+
 	"github.com/ali-aidaruly/finances-saktau/internal/models"
 	"github.com/ali-aidaruly/finances-saktau/internal/models/filters"
 	"github.com/ali-aidaruly/finances-saktau/internal/repository/category"
@@ -33,20 +35,29 @@ type UserRepo interface {
 	GetByTelegramId(ctx context.Context, telegramId int) (models.User, error)
 }
 
+type SubscriptionRepo interface {
+	Create(ctx context.Context, create models.CreateSubscription) (int, error)
+
+	GetAll(ctx context.Context, userTelegramID int) ([]models.Subscription, error)
+}
+
 type Repository struct {
 	UserRepo
 	CategoryRepo
 	InvoiceRepo
+	SubscriptionRepo
 }
 
 func New(db db.ExecUnsafe) Repository {
 	userRepo := user.NewRepo(db)
 	categoryRepo := category.NewRepo(db)
 	invoiceRepo := invoice.NewRepo(db)
+	SubscriptionRepo := subscription.NewRepo(db)
 
 	return Repository{
-		UserRepo:     userRepo,
-		CategoryRepo: categoryRepo,
-		InvoiceRepo:  invoiceRepo,
+		UserRepo:         userRepo,
+		CategoryRepo:     categoryRepo,
+		InvoiceRepo:      invoiceRepo,
+		SubscriptionRepo: SubscriptionRepo,
 	}
 }

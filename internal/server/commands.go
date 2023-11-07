@@ -11,12 +11,14 @@ import (
 )
 
 const (
-	start                = "/start"
-	addCategoryCommand   = "/addcategory"
-	addInvoiceCommand    = "/add"
-	getCategoriesCommand = "/getcategories"
-	getInvoicesCommand   = "/get"
-	getReportCommand     = "/getreport"
+	start                   = "/start"
+	addCategoryCommand      = "/addcategory"
+	addInvoiceCommand       = "/add"
+	addSubscriptionCommand  = "/addsub"
+	getCategoriesCommand    = "/getcategories"
+	getInvoicesCommand      = "/get"
+	getReportCommand        = "/getreport"
+	getSubscriptionsCommand = "/getsubs"
 )
 
 func (s *Server) processMessage(ctx context.Context, msg tgbotapi.Message) string {
@@ -38,12 +40,16 @@ func (s *Server) processMessage(ctx context.Context, msg tgbotapi.Message) strin
 		return s.createCategory(ctx, msg)
 	case addInvoiceCommand:
 		return s.createInvoice(ctx, msg)
+	case addSubscriptionCommand:
+		return s.createSubscription(ctx, msg)
 	case getCategoriesCommand:
 		return s.getAllCategories(ctx, msg)
 	case getInvoicesCommand:
 		return s.getInvoices(ctx, msg)
 	case getReportCommand:
 		return s.getReport(ctx, msg)
+	case getSubscriptionsCommand:
+		return s.getAllSubscriptions(ctx, msg)
 	default:
 		zerolog.Ctx(ctx).Log().Str("invalid command!", command).Send()
 	}

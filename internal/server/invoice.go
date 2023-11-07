@@ -107,7 +107,7 @@ func getInvoicesResponseMessage(payload composer.GetInvoicesPayload) (string, er
 		return "", err
 	}
 
-	const layout = "2.1.2006 15:04"
+	const layout = "15:04"
 	for i, w := range payload.Invoices {
 		row := fmt.Sprintf("%d) %s: %s KZT %s\n", i+1, w.CategoryName, w.Amount, w.CreatedAt.Local().Format(layout))
 

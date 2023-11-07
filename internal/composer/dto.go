@@ -37,3 +37,10 @@ type GetReportFilter struct {
 	FromDate *time.Time
 	TillDate *time.Time
 }
+
+type GetSubscriptionsPayload struct {
+	MonthlyTotal int
+	MonthlySubs  []models.Subscription
+	AnnualTotal  int
+	AnnualSubs   []models.Subscription
+}
